@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flor con CSS</title>
+    <style>
+        body {
+            background-color: #d7d7a8;
+            font-family: Arial;
+        }
+
+        h1 {
+            color: #ff0a54;
+            text-align: center;
+        }
+
+        .flor {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 50px auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .petalo {
+            width: 150px;
+            height: 150px;
+            background-color: yellow;
+            border-radius: 50% 50% 0 0;
+            position: absolute;
+            top: 75px;
+            left: 75px;
+            transform-origin: bottom center;
+            transition: transform 2s ease, opacity 1s ease;
+            cursor: pointer;
+            z-index: 10; 
+        }
+
+        .petalo:nth-child(1) { transform: rotate(0deg); }
+        .petalo:nth-child(2) { transform: rotate(45deg); }
+        .petalo:nth-child(3) { transform: rotate(90deg); }
+        .petalo:nth-child(4) { transform: rotate(135deg); }
+        .petalo:nth-child(5) { transform: rotate(180deg); }
+        .petalo:nth-child(6) { transform: rotate(225deg); }
+        .petalo:nth-child(7) { transform: rotate(270deg); }
+        .petalo:nth-child(8) { transform: rotate(315deg); }
+
+  
+        .centro {
+            width: 120px;
+            height: 120px;
+            background-color: brown;
+            border-radius: 50%;
+            position: absolute;
+            top: 160px;
+            left: 90px;
+            z-index: 15; 
+        }
+
+       
+        .Tallo {
+            width: 25px;
+            height: 300px;
+            background-color: green;
+            position: absolute;
+            top: 374px;
+            left: 140px;
+            z-index: 1;
+        }
+
+        .hoja {
+            width: 110px;
+            height: 110px;
+            background-color: green;
+            border-radius: 55px 0px 55px 0px;
+            position: absolute;
+            top: 420px;
+            left: 31px;
+            z-index: 1; 
+        }
+        
+        .hoja2 {
+            width: 110px;
+            height: 110px;
+            background-color: green;
+            border-radius: 55px 0px 57.5px 0px;
+            position: absolute;
+            top: 425px;
+            left: 219px;
+            transform: translateX(-50%);
+            transition: transform 1s ease, opacity 1s ease;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        @keyframes caerAlSuelo {
+            0% { 
+                transform: translateY(0) rotate(0deg); 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(600px) rotate(90deg); 
+                opacity: 0; 
+            }
+        }
+
+        .flor {
+            animation: moverFlor 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes moverFlor {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(5px); }
+        }
+
+        #mensaje {
+            position: fixed;
+            right: 30%;
+            border-radius: 20px; 
+            width: 200px; 
+            padding: 20px;
+            background: #a9def9; 
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 20px;
+            color: #000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+            z-index: 2;
+            opacity: 0; 
+            transition: opacity 2s ease;
+        }
+
+        #mensaje::before {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 30px solid #a9def9; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="flor">
+        <div class="petalo" onclick="caer(this, 1)"></div>
+        <div class="petalo" onclick="caer(this, 2)"></div>
+        <div class="petalo" onclick="caer(this, 3)"></div>
+        <div class="petalo" onclick="caer(this, 4)"></div>
+        <div class="petalo" onclick="caer(this, 5)"></div>
+        <div class="petalo" onclick="caer(this, 6)"></div>
+        <div class="petalo" onclick="caer(this, 7)"></div>
+        <div class="petalo" onclick="caer(this, 8)"></div>
+        <div class="centro"></div>
+        <div class="Tallo"></div>
+        <div class="hoja"></div>
+        <div class="hoja2"></div>
+    </div>
+
+    <div class="mensaje" id="mensaje"></div>
+
+    <script>
+        let petalosTocados = 0;
+        const totalPetalos = 8;
+
+        function moverFlor() {
+            let flor = document.querySelector('.flor');
+            flor.style.transform = `translateX(${5 * (petalosTocados % 2)}px)`;
+            petalosTocados++;
+        }
+
+        setInterval(moverFlor, 1500); 
+
+
+        function caer(petalo, index) {
+            if (petalosTocados >= totalPetalos) {
+
+                window.location.href = 'https://hoe18adk.github.io/web-conexion.github.io/'; 
+                return;
+            }
+
+            petalo.style.animation = "caerAlSuelo 2s forwards";
+            petalo.style.pointerEvents = 'none'; 
+
+
+            const mensajes = [
+                "Hola preciosa",
+                "Que guapa has de estar",
+                "Mi futura chef",
+                "No quemes la comida",
+                "Sabías que te amo?",
+                "La chef más perezosa",
+                "Rascacielos",
+                "Niña guapa"
+            ];
+
+            const mensaje = document.getElementById('mensaje');
+            mensaje.innerText = mensajes[index - 1];
+            mensaje.style.opacity = 1;
+
+
+            setTimeout(() => {
+                mensaje.style.opacity = 0;
+            }, 2000);
+
+            petalosTocados++;
+        }
+    </script>
+</body>
+</html>
